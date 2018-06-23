@@ -187,6 +187,11 @@ function b64encode (string) {
   return b64.replace(/\+/g, '-').replace(/=/g, '')
 }
 
+/**
+ * Base64 Encode a number and strip '='
+ * @param {number} num Data to be encoded
+ * @return {string} Base64 encoded result
+ */
 function b64encodeInt (num) {
   let hex = parseInt(num).toString(16)
   if (hex.length % 2 === 1) {
@@ -196,17 +201,30 @@ function b64encodeInt (num) {
   return b64.replace(/\+/g, '-').replace(/=/g, '')
 }
 
+/**
+ * Base64 Decode a number and automatically add '='
+ * @param {string} string Data to be decoded
+ * @return {number} Decoded number result
+ */
 function b64decodeInt (string) {
-  if ((string.length % 4) === 3) {
-    string += '='
-  } else if ((string.length % 4) === 2) {
-    string += '=='
-  } else if ((string.length % 4) === 1) {
-    string += '==='
-  }
+  string += '='.repeat(mod(-string%4 ,4))
   return parseInt(Buffer.from(string, 'base64').toString('hex'), 16)
 }
 
+/**
+ * Modulo function to support negative
+ * @param {number} n Number input
+ * @param {number} m Modulo to find
+ * @return {number} Modulo output
+ */
+function mod (n, m) {
+  return ((n * m) + m) % m
+}
+
+/**
+ * Fail handler
+ * @return {void}
+ */
 function fail () {
   throw new Error(format.apply(null, arguments))
 }
