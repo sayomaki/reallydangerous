@@ -7,5 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "willi123yao",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willi123yao/reallydangerous.git"
+  },
+  "keywords": [
+    "itsdangerous"
+  ],
+  "bugs": {
+    "url": "https://github.com/willi123yao/reallydangerous/issues"
+  },
+  "homepage": "https://github.com/willi123yao/reallydangerous#readme"
 }
