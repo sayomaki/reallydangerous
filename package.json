@@ -1,0 +1,11 @@
+{
+  "name": "reallydangerous",
+  "version": "1.0.0",
+  "description": "NodeJS port of the Python itsdangerous module",
+  "main": "reallydangerous.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "willi123yao",
+  "license": "MIT"
+}
