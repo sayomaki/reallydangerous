@@ -3,41 +3,41 @@ const format = require('util').format
 
 class ReallyDangerous {
  /**
-   * @param {string} secret Secret for token
-   * @param {Array} opts Options
+   * @param {String} secret Secret for token
+   * @param {Object} opts Options
    */
   constructor (secret, opts) {
     /**
      * Secret string
-     * @type {string}
+     * @type {String}
      */
     this.secret = secret
 
     /**
-     * Epoch time to be used (in seconds)
+     * Epoch time to be used (in milliseconds)
      * Defaults to 1293840000 (2011/01/01 in UTC)
-     * @type {number}
+     * @type {Number}
      */
     this.EPOCH = (opts && opts.EPOCH) || 1293840000
 
     /**
      * Salt used for HMAC digest
      * Defaults to 'itsDangerous'
-     * @type {string}
+     * @type {String}
      */
     this.salt = (opts && opts.salt) || 'itsDangerous'
 
     /**
      * Seperator for token
      * Defaults to '.'
-     * @type {string}
+     * @type {String}
      */
     this.sep = (opts && opts.sep) || '.'
 
     /**
      * HMAC Digest Method
      * Defaults to 'sha1'
-     * @type {string}
+     * @type {String}
      */
     this.digestMethod = (opts && opts.digestMethod) || 'sha1'
 
@@ -46,8 +46,8 @@ class ReallyDangerous {
 
   /**
    * Signs the data
-   * @param {string} value Data to be signed
-   * @return {string} Signed data
+   * @param {String} value Data to be signed
+   * @return {String} Signed data
    */
   sign (value) {
     return format('%s%s%s', value, this.sep, signature(this.algorithm, this.secret, this.salt, value))
@@ -55,8 +55,8 @@ class ReallyDangerous {
 
   /**
    * Unsigns the data and verifies it
-   * @param {string} data Data to be unsigned
-   * @return {string} Original data
+   * @param {String} data Data to be unsigned
+   * @return {String} Original data
    */
   unsign (data) {
     const tuple = rsplit(data, this.sep)
@@ -75,8 +75,8 @@ class ReallyDangerous {
 class TimestampSigner extends ReallyDangerous {
   /**
    * Signs the data
-   * @param {string} value Data to be signed
-   * @return {string} Signed data
+   * @param {String} value Data to be signed
+   * @return {String} Signed data
    */
   sign (data) {
     const timestamp = b64encodeInt(Date.now() - this.EPOCH)
@@ -87,14 +87,11 @@ class TimestampSigner extends ReallyDangerous {
 
   /**
    * Unsigns the data and verifies it
-   * @param {string} data Data to be unsigned
-   * @param {number} maxAge Maximum duration of signed data
-   * @return {string} Original data
+   * @param {String} data Data to be unsigned
+   * @param {Number} maxAge Maximum duration of signed data
+   * @return {String} Original data
    */
-  unsign (data, maxAge) {
-
-    maxAge = maxAge || null
-
+  unsign (data, maxAge=null) {
     const unsigned = super.unsign(data)
 
     const tuple = rsplit(unsigned, this.sep)
@@ -115,15 +112,15 @@ class TimestampSigner extends ReallyDangerous {
 
   /**
    * Fetch timestamp of signed data
-   * @param {string} data Signed data
-   * @return {number} Timestamp of signature
+   * @param {String} data Signed data
+   * @return {Number} Timestamp of signature
    */
   timestamp (data) {
     const unsigned = super.unsign(data)
 
     const tuple = rsplit(unsigned, this.sep)
 
-    return b64decodeInt(tuple[1])
+    return b64decodeInt(tuple[1]) + this.EPOCH
   }
 }
 
@@ -131,8 +128,8 @@ class TimestampSigner extends ReallyDangerous {
 
 /**
  * Signature splitter using seperator
- * @param {string} string String to be seperated
- * @param {string} seperator Seperator string
+ * @param {String} string String to be seperated
+ * @param {String} seperator Seperator string
  * @return {Array} Array of seperated strings
  */
 function rsplit (string, separator) {
@@ -148,10 +145,10 @@ function rsplit (string, separator) {
 /**
  * Function to sign the data using the key and salt
  * @param {Function} algorithm The HMAC algorithm
- * @param {string} secret The secret to be used
- * @param {string} salt The salt to be used
- * @param {string} value Value to be signed
- * @return {string} Base64 representation of string
+ * @param {String} secret The secret to be used
+ * @param {String} salt The salt to be used
+ * @param {String} value Value to be signed
+ * @return {String} Base64 representation of string
  */
 function signature (algorithm, secret, salt, value) {
   const key = algorithm(secret, salt)
@@ -162,7 +159,7 @@ function signature (algorithm, secret, salt, value) {
 
 /**
  * Contains the function to sign the data and creates the HMAC
- * @param {string} digestMethod The digest method to be used
+ * @param {String} digestMethod The digest method to be used
  * @return {Function} Algorithm to sign data
  */
 function hmacAlgorithm (digestMethod) {
@@ -179,8 +176,8 @@ function hmacAlgorithm (digestMethod) {
 
 /**
  * Base64 Encode a string and strip '='
- * @param {string} string Data to be encoded
- * @return {string} Base64 encoded result
+ * @param {String} string Data to be encoded
+ * @return {String} Base64 encoded result
  */
 function b64encode (string) {
   const b64 = Buffer.from(string).toString('base64')
@@ -189,8 +186,8 @@ function b64encode (string) {
 
 /**
  * Base64 Encode a number and strip '='
- * @param {number} num Data to be encoded
- * @return {string} Base64 encoded result
+ * @param {Number} num Data to be encoded
+ * @return {String} Base64 encoded result
  */
 function b64encodeInt (num) {
   let hex = parseInt(num).toString(16)
@@ -203,8 +200,8 @@ function b64encodeInt (num) {
 
 /**
  * Base64 Decode a number and automatically add '='
- * @param {string} string Data to be decoded
- * @return {number} Decoded number result
+ * @param {String} string Data to be decoded
+ * @return {Number} Decoded number result
  */
 function b64decodeInt (string) {
   string += '='.repeat(mod(-string%4 ,4))
@@ -213,9 +210,9 @@ function b64decodeInt (string) {
 
 /**
  * Modulo function to support negative
- * @param {number} n Number input
- * @param {number} m Modulo to find
- * @return {number} Modulo output
+ * @param {Number} n Number input
+ * @param {Number} m Modulo to find
+ * @return {Number} Modulo output
  */
 function mod (n, m) {
   return ((n * m) + m) % m
