@@ -181,7 +181,7 @@ function hmacAlgorithm (digestMethod) {
  */
 function b64encode (string) {
   const b64 = Buffer.from(string).toString('base64')
-  return b64.replace(/\+/g, '-').replace(/=/g, '')
+  return b64.replace(/\+/g, '-').replace(/\//g).replace(/=/g, '')
 }
 
 /**
@@ -195,7 +195,7 @@ function b64encodeInt (num) {
     hex = '0' + hex
   }
   const b64 = Buffer.from(hex, 'hex').toString('base64')
-  return b64.replace(/\+/g, '-').replace(/=/g, '')
+  return b64.replace(/\+/g, '-').replace(/\//g).replace(/=/g, '')
 }
 
 /**
