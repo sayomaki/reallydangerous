@@ -5,7 +5,7 @@ NodeJS port of the Python itsdangerous module
 - Timestamp signer
 - Uses number instead of string for timestamp to reduce length
 - Strips trailing "=" automatically
-- Web-safe format (convert "+" to "-")
+- Web-safe format (convert "+" to "-" and "/" to "_")
 
 ## Usage
 ### Signer
@@ -32,6 +32,7 @@ Returns signed string
 
 #### signer.unsign(data)
 * `data` {String} Signed value
+
 Returns original value if signature is correct, else throw BadSignature error
 
 ### TimestampSigner
@@ -57,14 +58,17 @@ console.log(signer.timestamp('test.AWPe1LX3.wrh5wojCncKyN8OEWEU3asOpYsOvMSDDrhoX
   
 #### signer.sign(value)
 * `value` {String} The value to be signed
+
 Returns signed string with timestamp
 
 #### signer.unsign(data[, maxAge])
 * `data` {String} Signed value
 * `maxAge` {Number} Max age time in milliseconds
+
 Returns original value if signature is correct and age is less than maxAge(if defined), else throw BadSignature error
 
 #### signer.timestamp(data)
 * `data` {String} Signed value
-Returns created timestamp if signature is correct, else throw BadSignature error
+
+Returns created timestamp (in milliseconds) if signature is correct, else throw BadSignature error
 
