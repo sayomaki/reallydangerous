@@ -36,10 +36,10 @@ class ReallyDangerous {
 
     /**
      * HMAC Digest Method
-     * Defaults to 'sha1'
+     * Defaults to 'sha512' for security
      * @type {String}
      */
-    this.digestMethod = (opts && opts.digestMethod) || 'sha1'
+    this.digestMethod = (opts && opts.digestMethod) || 'sha512'
 
     this.algorithm = hmacAlgorithm(this.digestMethod)
   }
@@ -181,7 +181,7 @@ function hmacAlgorithm (digestMethod) {
  */
 function b64encode (string) {
   const b64 = Buffer.from(string).toString('base64')
-  return b64.replace(/\+/g, '-').replace(/\//g).replace(/=/g, '')
+  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
 
 /**
@@ -195,7 +195,7 @@ function b64encodeInt (num) {
     hex = '0' + hex
   }
   const b64 = Buffer.from(hex, 'hex').toString('base64')
-  return b64.replace(/\+/g, '-').replace(/\//g).replace(/=/g, '')
+  return b64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
 
 /**
