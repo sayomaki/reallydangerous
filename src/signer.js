@@ -16,7 +16,7 @@ class Signer {
 
     this.sep = Buffer.from(sep);
 
-    this.salt = salt || 'itsDangerous.Signer';
+    this.salt = salt || 'itsdangerous.Signer';
 
     this.key_derivation = key_derivation || this.default_key_derivation;
 
