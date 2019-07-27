@@ -28,8 +28,15 @@ class NoneAlgorithm {
 }
 
 const b64encode = (data) => {
-  const enc = Buffer.from(data).toString('base64');
-  return enc.split('/').join('_').split('+').join('-').split('=').join('');
+  if (typeof data === 'number') {
+    data = data.toString(16);
+    const enc = Buffer.from(data, 'hex').toString('base64');
+    return enc.split('/').join('_').split('+').join('-').split('=').join('');
+  }
+  else {
+    const enc = Buffer.from(data).toString('base64');
+    return enc.split('/').join('_').split('+').join('-').split('=').join('');
+  }
 }
 
 const b64decode = (data) => {
