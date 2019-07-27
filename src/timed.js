@@ -4,7 +4,7 @@ const Signer = require('./signer');
 
 class TimestampSigner extends Signer {
   constructor () {
-    super(arguments);
+    super(...arguments);
     this.epoch = 0;
   }
 
@@ -28,9 +28,8 @@ class TimestampSigner extends Signer {
 
   sign (value) {
     const timestamp = utils.b64encode(this.get_timestamp());
-    const sep = this.sep;
-    value = value + sep + timestamp;
-    return value + sep + this.get_signature(value);
+    value = value + this.sep + timestamp;
+    return value + this.sep + this.get_signature(value);
   }
 
   unsign (value, max_age, return_timestamp=false) {
