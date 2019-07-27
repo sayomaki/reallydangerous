@@ -1,13 +1,13 @@
 {
   "name": "reallydangerous",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "NodeJS port of the Python itsdangerous module",
-  "main": "reallydangerous.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "willi123yao",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/willi123yao/reallydangerous.git"
