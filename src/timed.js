@@ -12,7 +12,7 @@ class TimestampSigner extends Signer {
   }
 
   sign (value) {
-    const timestamp = utils.b64encode(this.get_timestamp().toString());
+    const timestamp = utils.b64encode(this.get_timestamp());
     const sep = this.sep;
     value = value + sep + timestamp;
     return value + sep + this.get_signature(value);
@@ -38,17 +38,17 @@ class TimestampSigner extends Signer {
     value = result.join(sep);
 
     try {
-      timestamp = parseInt(b64decode(timestamp));
+      timestamp = parseInt(utils.b64decode(timestamp).toString('hex'), 16);
     }
     catch (e) {
 
     }
 
     if (sig_error) throw Error (sig_error);
-    if (!timestamp) throw Error ('BadTimeSignature: Malformed timestamp.');
+    if (!timestamp || Number.isNaN(timestamp)) throw Error ('BadTimeSignature: Malformed timestamp.');
 
-    if (max_age) {
-      const age = this.get_timestamp - timestamp;
+    if (max_age && max_age > 0) {
+      const age = this.get_timestamp() - timestamp;
       if (age > max_age) throw Error ('BadTimeSignature: Signature age ' + age + ' > ' + max_age + ' seconds');
     }
 
