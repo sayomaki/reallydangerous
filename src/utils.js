@@ -30,6 +30,7 @@ class NoneAlgorithm {
 const b64encode = (data) => {
   if (typeof data === 'number') {
     data = data.toString(16);
+    data = data.length % 2 == 0 ? data : '0' + data;
     const enc = Buffer.from(data, 'hex').toString('base64');
     return enc.split('/').join('_').split('+').join('-').split('=').join('');
   }
