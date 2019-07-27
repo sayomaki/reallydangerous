@@ -25,6 +25,10 @@ class NoneAlgorithm {
   get_signature (digest_method, key, value) {
     return value;
   }
+
+  verify_signature (key, value, sig) {
+    return value === this.get_signature(key, value);
+  }
 }
 
 const b64encode = (data) => {
