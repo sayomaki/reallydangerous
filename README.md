@@ -7,6 +7,13 @@ NodeJS port of the Python itsdangerous module
 - Strips trailing "=" automatically
 - Web-safe format (convert "+" to "-" and "/" to "_")
 
+## Install
+### NPM
+You can install this package through npm: `$ npm install reallydangerous`
+
+### From source
+Simply [download the package here](https://github.com/willi123yao/reallydangerous/archive/v1.1.0.zip) and copy the reallydangerous file to your source folder.
+
 ## Usage
 ### Signer
 ```javascript
