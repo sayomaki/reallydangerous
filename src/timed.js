@@ -3,12 +3,27 @@ const utils = require('./utils');
 const Signer = require('./signer');
 
 class TimestampSigner extends Signer {
+  constructor () {
+    super(arguments);
+    this.epoch = 0;
+  }
+
+  set_epoch (epoch) {
+    epoch = parseInt(epoch);
+    if (Number.isNaN(epoch)) throw Error ('BadEpoch: Epoch must be seconds after unix/POSIX epoch.');
+    this.epoch = epoch;
+  }
+  
+  get_epoch (epoch) {
+    return this.epoch;
+  }
+
   get_timestamp () {
-    return parseInt((Date.now() / 1000).toFixed(0));
+    return parseInt((Date.now() / 1000 - this.epoch).toFixed(0));
   }
 
   timestamp_to_datetime (ts) {
-    return new Date(ts * 1000);
+    return new Date((ts + this.epoch) * 1000);
   }
 
   sign (value) {
