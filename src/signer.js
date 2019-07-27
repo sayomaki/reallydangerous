@@ -73,8 +73,8 @@ class Signer {
       throw Error ('BadSignature: No ' + sep + ' found in value.');
     }
     signed_value = signed_value.split(sep);
-    const value = signed_value[0];
-    const sig = signed_value[1];
+    const sig = signed_value.pop();
+    const value = signed_value.join(sep);
     if (this.verify_signature(value, sig)) return value;
     throw Error ('BadSignature: Signature ' + sig + ' does not match');
   }
