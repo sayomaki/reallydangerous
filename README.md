@@ -3,9 +3,14 @@ NodeJS port of the Python itsdangerous module
 
 ## Features
 - Timestamp signer with custom epoch support
-- Reduce signature length and similar output to python itsdangerous
-- Strips trailing "=" automatically
+- Reduce signature length by striping trailing "=" automatically
+- Similar output to python itsdangerous
 - Web-safe format (convert "+" to "-" and "/" to "_")
+
+
+## Installation
+You can install this package via [NPM](https://npmjs.org/package/reallydangerous): `npm install reallydangerous`
+
 
 ## Usage
 ### Signer
@@ -81,7 +86,7 @@ Returns signed string with timestamp
 * `max_age` {Number} Max age time in milliseconds. Default to 0 which is no expiry.
 * `return_timestamp` {Boolean} Whether the timestamp should be returned. Defaults to 'false'
 
-Returns original value if signature is correct and age is less than max_age (if defined), else throw BadTimeSignature error
+Returns original value if signature is correct and age is less than max_age (if defined), else throw BadTimeSignature error. Returns an array of the original value and the timestamp without epoch if 'return_timestamp' is set to true.
 
 #### signer.get_timestamp()
 Returns current timestamp in seconds

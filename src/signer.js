@@ -10,7 +10,7 @@ class Signer {
 
     this.secret_key = Buffer.from(secret_key);
     
-    if (sep.match(/[A-Za-z-_=]/)) {
+    if (sep.match(/[A-Za-z0-9-_=]/)) {
       throw Error ('The given separator cannot be used because it may be contained in the signature itself. Alphanumeric characters and `-_=` must not be used.');
     }
 
