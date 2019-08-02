@@ -2,17 +2,13 @@
 NodeJS port of the Python itsdangerous module
 
 ## Features
-- Timestamp signer
-- Uses number instead of string for timestamp to reduce length
-- Strips trailing "=" automatically
+- Timestamp signer with custom epoch support
+- Reduce signature length by striping trailing "=" automatically
+- Similar output to python itsdangerous
 - Web-safe format (convert "+" to "-" and "/" to "_")
 
-## Install
-### NPM
-You can install this package through npm: `$ npm install reallydangerous`
-
-### From source
-Simply [download the package here](https://github.com/willi123yao/reallydangerous/archive/v1.1.0.zip) and copy the reallydangerous file to your source folder.
+## Installation
+You can install this package via [NPM](https://npmjs.org/package/reallydangerous): `npm install reallydangerous`
 
 ## Usage
 ### Signer
@@ -21,20 +17,29 @@ const RD = require('reallydangerous');
 const signer = new RD.Signer('my-secret');
 
 console.log(signer.sign('test'));
-// 'test.dTvDkVZCw4Ygw7hvGlPDjMKjA8Kic8OrQcK6w7A'
-console.log(signer.unsign('test.dTvDkVZCw4Ygw7hvGlPDjMKjA8Kic8OrQcK6w7A'));
+// 'test.c_1GcJ_PKrUqi7gx_0uP1rRAHMk'
+console.log(signer.unsign('test.c_1GcJ_PKrUqi7gx_0uP1rRAHMk'));
 // 'test'
 ```
-#### new RD.Signer(secret[, opts])
+#### new RD.Signer(secret[, secret, salt, sep, key_derivation, digest_method, algorithm])
 * `secret` {String} Secret to be used
-* `opts` {Object}
-  * `EPOCH` {Number} Epoch to be used for timestamps (default is 1293840000)
-  * `sep` {String} Seperator for signature
-  * `salt` {String} Salt to be used (defaults to 'itsDangerous')
-  * `digestMethod` {String} Digest method for signing (default: sha1)
+* `salt` {String} Salt to be used for key generation (Defaults to 'itsDangerous.Signer')
+* `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
+* `key_derivation` {String} Similar to the python module. Available options are 'concat', 'hmac', 'none' and 'django-concat' (default)
+* `digest_method` {String} Hashing function type to be used for hash calculation. Supported values include any hashing function from nodejs crypto library.
+* `algorithm` {Class} Algorithm class to sign and requires the methods 'get_signature' and 'verify_signature'
+
+#### signer.derive_key()
+Returns a nodejs Buffer of the generated key.
+
+#### signer.get_signature(value)
+* `value` {String} Input to get signature of
+
+Returns signature of value as string
 
 #### signer.sign(value)
 * `value` {String} The value to be signed
+
 Returns signed string
 
 #### signer.unsign(data)
@@ -48,34 +53,39 @@ const RD = require('reallydangerous');
 const signer = new RD.TimestampSigner('my-secret');
 
 console.log(signer.sign('test'));
-// 'test.AWPe1LX3.wrh5wojCncKyN8OEWEU3asOpYsOvMSDDrhoXwrM'
-console.log(signer.unsign('test.AWPe1LX3.wrh5wojCncKyN8OEWEU3asOpYsOvMSDDrhoXwrM'));
+// 'test.XTxTRw.dXVJz1MsFiapD0GQ5a16bHjOq2M'
+console.log(signer.unsign('test.XTxTRw.dXVJz1MsFiapD0GQ5a16bHjOq2M'));
 // 'test'
-console.log(signer.timestamp('test.AWPe1LX3.wrh5wojCncKyN8OEWEU3asOpYsOvMSDDrhoXwrM'));
-// 1529745712247
+console.log(signer.unsign('test.XTxTRw.dXVJz1MsFiapD0GQ5a16bHjOq2M'), 0, true);
+// ['test', 1564234567]
 ```
 
-#### new RD.TimestampSigner(secret[, opts])
+#### new RD.TimestampSigner(secret[, secret, salt, sep, key_derivation, digest_method, algorithm])
 * `secret` {String} Secret to be used
-* `opts` {Object}
-  * `EPOCH` {Number} Epoch to be used for timestamps (default is 1293840000)
-  * `sep` {String} Seperator for signature
-  * `salt` {String} Salt to be used (defaults to 'itsDangerous')
-  * `digestMethod` {String} Digest method for signing (default: sha1)
-  
+* `salt` {String} Salt to be used for key generation (Defaults to 'itsdangerous.Signer')
+* `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
+* `key_derivation` {String} Similar to the python module. Available options are 'concat', 'hmac', 'none' and 'django-concat' (default)
+* `digest_method` {String} Hashing function type to be used for hash calculation. Supported values include any hashing function from nodejs crypto library.
+* `algorithm` {Class} Algorithm class to sign and requires the methods 'get_signature' and 'verify_signature'
+
+#### signer.set_epoch(epoch)
+* `epoch` {Number|String} Epoch to use for signing/unsigning in seconds
+
+#### signer.get_epoch()
+Returns current epoch as a number
+
 #### signer.sign(value)
 * `value` {String} The value to be signed
 
 Returns signed string with timestamp
 
-#### signer.unsign(data[, maxAge])
+#### signer.unsign(data[, max_age, return_timestamp])
 * `data` {String} Signed value
-* `maxAge` {Number} Max age time in milliseconds
+* `max_age` {Number} Max age time in milliseconds. Default to 0 which is no expiry.
+* `return_timestamp` {Boolean} Whether the timestamp should be returned. Defaults to 'false'
 
-Returns original value if signature is correct and age is less than maxAge(if defined), else throw BadSignature error
+Returns original value if signature is correct and age is less than max_age (if defined), else throw BadTimeSignature error. Returns an array of the original value and the timestamp without epoch if 'return_timestamp' is set to true.
 
-#### signer.timestamp(data)
-* `data` {String} Signed value
-
-Returns created timestamp (in milliseconds) if signature is correct, else throw BadSignature error
+#### signer.get_timestamp()
+Returns current timestamp in seconds
 
