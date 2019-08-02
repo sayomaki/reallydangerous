@@ -7,10 +7,8 @@ NodeJS port of the Python itsdangerous module
 - Similar output to python itsdangerous
 - Web-safe format (convert "+" to "-" and "/" to "_")
 
-
 ## Installation
 You can install this package via [NPM](https://npmjs.org/package/reallydangerous): `npm install reallydangerous`
-
 
 ## Usage
 ### Signer
