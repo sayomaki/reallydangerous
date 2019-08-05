@@ -21,7 +21,7 @@ console.log(signer.sign('test'));
 console.log(signer.unsign('test.c_1GcJ_PKrUqi7gx_0uP1rRAHMk'));
 // 'test'
 ```
-#### new RD.Signer(secret[, secret, salt, sep, key_derivation, digest_method, algorithm])
+#### new RD.Signer(secret[, salt, sep, key_derivation, digest_method, algorithm])
 * `secret` {String} Secret to be used
 * `salt` {String} Salt to be used for key generation (Defaults to 'itsDangerous.Signer')
 * `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
@@ -60,7 +60,7 @@ console.log(signer.unsign('test.XTxTRw.dXVJz1MsFiapD0GQ5a16bHjOq2M'), 0, true);
 // ['test', 1564234567]
 ```
 
-#### new RD.TimestampSigner(secret[, secret, salt, sep, key_derivation, digest_method, algorithm])
+#### new RD.TimestampSigner(secret[, salt, sep, key_derivation, digest_method, algorithm])
 * `secret` {String} Secret to be used
 * `salt` {String} Salt to be used for key generation (Defaults to 'itsdangerous.Signer')
 * `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
