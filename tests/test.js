@@ -36,8 +36,8 @@ console.log('Testing message signing and unsigning with TimestampSigner...');
       throw Error ('Test failed. (Expired test)');
     }
     catch (e) {
-      // pass
-      done();
+      if (e.toString().includes('BadTimeSignature')) done();
+      else throw e;
     }
   }, 3000);
 })();
