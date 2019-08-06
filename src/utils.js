@@ -1,8 +1,8 @@
 'use strict'
 const crypto = require('crypto');
 
-const hashlib = {
-  sha1: (data) => crypto.createHash('sha1').update(data).digest()
+const hashkey = (method, data) => { 
+  return crypto.createHash(method).update(data).digest()
 }
 
 class HMACAlgorithm  {
@@ -57,7 +57,7 @@ const mod = (n, m) => {
 module.exports = {
   HMACAlgorithm,
   NoneAlgorithm,
-  hashlib,
+  hashkey,
   b64encode,
   b64decode
 }

@@ -29,10 +29,10 @@ class Signer {
     const salt = Buffer.from(this.salt);
 
     if (this.key_derivation === 'concat') {
-      return utils.hashlib[this.digest_method](Buffer.concat([salt, this.secret_key]));
+      return utils.hashkey(this.digest_method, Buffer.concat([salt, this.secret_key]));
     }
     else if (this.key_derivation === 'django-concat') {
-      return utils.hashlib[this.digest_method](Buffer.concat([salt, Buffer.from("signer"), this.secret_key]));
+      return utils.hashkey(this.digest_method, Buffer.concat([salt, Buffer.from("signer"), this.secret_key]));
     }
     else if (this.key_derivation === 'hmac') {
       return crypto.createHmac(this.digest_method, this.secret_key).update(salt).digest();
