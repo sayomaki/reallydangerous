@@ -2,8 +2,8 @@
 
 const utils = require('./utils');
 
-const encode = (payload) => {
-  const enc = Buffer.from(payload).toString('base64');
+const encode = (data) => {
+  const enc = Buffer.from(data).toString('base64');
   return enc.split('/').join('_').split('+').join('-').split('=').join('');
 }
 
