@@ -8,7 +8,7 @@ class Signer {
     this.default_digest_method = 'sha1';
     this.default_key_derivation = 'django-concat';
 
-    this.secret_key = Buffer.from(secret_key);
+    this.secret_key = secret_key ? Buffer.from(secret_key) : Buffer.from('my-secret');
     
     if (sep.match(/[A-Za-z0-9-_=]/)) {
       throw Error ('The given separator cannot be used because it may be contained in the signature itself. Alphanumeric characters and `-_=` must not be used.');
