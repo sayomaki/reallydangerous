@@ -3,7 +3,7 @@ const utils = require('./utils');
 const Signer = require('./signer');
 
 class TimestampSigner extends Signer {
-  constructor () {
+  constructor (secret_key, salt, sep='.', key_derivation, digest_method, algorithm) {
     super(...arguments);
     this.epoch = 0;
   }

@@ -6,6 +6,7 @@ NodeJS port of the Python itsdangerous module
 - Reduce signature length by striping trailing "=" automatically
 - Similar output to python itsdangerous
 - Web-safe format (convert "+" to "-" and "/" to "_")
+- Built-in web-safe Base64 encoder/decoder
 
 ## Installation
 You can install this package via [NPM](https://npmjs.org/package/reallydangerous): `npm install reallydangerous`
@@ -22,7 +23,7 @@ console.log(signer.unsign('test.c_1GcJ_PKrUqi7gx_0uP1rRAHMk'));
 // 'test'
 ```
 #### new RD.Signer(secret[, salt, sep, key_derivation, digest_method, algorithm])
-* `secret` {String} Secret to be used
+* `secret` {String} Secret to be used (Defaults to 'my-secret')
 * `salt` {String} Salt to be used for key generation (Defaults to 'itsDangerous.Signer')
 * `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
 * `key_derivation` {String} Similar to the python module. Available options are 'concat', 'hmac', 'none' and 'django-concat' (default)
@@ -61,7 +62,7 @@ console.log(signer.unsign('test.XTxTRw.dXVJz1MsFiapD0GQ5a16bHjOq2M'), 0, true);
 ```
 
 #### new RD.TimestampSigner(secret[, salt, sep, key_derivation, digest_method, algorithm])
-* `secret` {String} Secret to be used
+* `secret` {String} Secret to be used (Defaults to 'my-secret')
 * `salt` {String} Salt to be used for key generation (Defaults to 'itsdangerous.Signer')
 * `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
 * `key_derivation` {String} Similar to the python module. Available options are 'concat', 'hmac', 'none' and 'django-concat' (default)
@@ -89,3 +90,23 @@ Returns original value if signature is correct and age is less than max_age (if 
 #### signer.get_timestamp()
 Returns current timestamp in seconds
 
+### Web-safe Base64 encode/decode
+```javascript
+const RD = require('reallydangerous');
+
+console.log(RD.Base64.encode('test'));
+// 'dGVzdA'
+console.log(RD.Base64.decode('dGVzdA'));
+// 'test'
+```
+
+#### Base64.encode(data)
+* `data` {String|Buffer} Data to be encoded in web-safe format
+
+Returns web-safe base64 encoded string
+
+#### Base64.decode(payload, buffer)
+* `payload` {String} Encoded base64 to be decoded
+* `buffer` {Boolean} Set to `true` to return a buffer instead of a string
+
+Returns the data buffer if the buffer parameter is true otherwise the original data string 

@@ -8,7 +8,7 @@ class Signer {
     this.default_digest_method = 'sha1';
     this.default_key_derivation = 'django-concat';
 
-    this.secret_key = Buffer.from(secret_key);
+    this.secret_key = secret_key ? Buffer.from(secret_key) : Buffer.from('my-secret');
     
     if (sep.match(/[A-Za-z0-9-_=]/)) {
       throw Error ('The given separator cannot be used because it may be contained in the signature itself. Alphanumeric characters and `-_=` must not be used.');
@@ -29,10 +29,10 @@ class Signer {
     const salt = Buffer.from(this.salt);
 
     if (this.key_derivation === 'concat') {
-      return utils.hashlib[this.digest_method](Buffer.concat([salt, this.secret_key]));
+      return utils.hashkey(this.digest_method, Buffer.concat([salt, this.secret_key]));
     }
     else if (this.key_derivation === 'django-concat') {
-      return utils.hashlib[this.digest_method](Buffer.concat([salt, Buffer.from("signer"), this.secret_key]));
+      return utils.hashkey(this.digest_method, Buffer.concat([salt, Buffer.from("signer"), this.secret_key]));
     }
     else if (this.key_derivation === 'hmac') {
       return crypto.createHmac(this.digest_method, this.secret_key).update(salt).digest();
