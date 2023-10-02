@@ -6,17 +6,17 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "willi123yao",
+  "author": "sayomaki",
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/willi123yao/reallydangerous.git"
+    "url": "git+https://github.com/sayomaki/reallydangerous.git"
   },
   "keywords": [
     "itsdangerous"
   ],
   "bugs": {
-    "url": "https://github.com/willi123yao/reallydangerous/issues"
+    "url": "https://github.com/sayomaki/reallydangerous/issues"
   },
-  "homepage": "https://github.com/willi123yao/reallydangerous#readme"
+  "homepage": "https://github.com/sayomaki/reallydangerous#readme"
 }
