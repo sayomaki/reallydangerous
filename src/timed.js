@@ -14,7 +14,7 @@ class TimestampSigner extends Signer {
     this.epoch = epoch;
   }
   
-  get_epoch (epoch) {
+  get_epoch () {
     return this.epoch;
   }
 
