@@ -28,10 +28,10 @@ console.log(signer.unsign('test.c_1GcJ_PKrUqi7gx_0uP1rRAHMk'));
 * `sep` {String} Separator to be used for token. Only characters not inside the base64 alphabet are supported.
 * `key_derivation` {String} Similar to the python module. Available options are 'concat', 'hmac', 'none' and 'django-concat' (default)
 * `digest_method` {String} Hashing function type to be used for hash calculation. Supported values include any hashing function from nodejs crypto library.
-* `algorithm` {Class} Algorithm class to sign and requires the methods 'get_signature' and 'verify_signature'
+* `algorithm` {Class} Algorithm class instance used for signatures with the methods 'get_signature' and 'verify_signature'
 
 #### signer.derive_key()
-Returns a nodejs Buffer of the generated key.
+Returns a [Node.js Buffer](https://nodejs.org/dist/latest/docs/api/buffer.html) of the generated key.
 
 #### signer.get_signature(value)
 * `value` {String} Input to get signature of
