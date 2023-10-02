@@ -4,7 +4,7 @@
   "description": "NodeJS port of the Python itsdangerous module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"If you want to run tests, please run them manually in the 'tests' folder.\""
   },
   "author": "sayomaki",
   "license": "BSD-3-Clause",
