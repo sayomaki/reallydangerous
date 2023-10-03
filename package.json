@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/sayomaki/reallydangerous/issues"
   },
-  "homepage": "https://github.com/sayomaki/reallydangerous#readme"
+  "homepage": "https://github.com/sayomaki/reallydangerous#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
